@@ -12,12 +12,23 @@ app.use(loggingMiddleware) //Middleware for logging
 app.use(sessionMiddleware) //Adds a session object to every req object. Access using req.session
 
 //Available Endpoints
-app.use('/login') //Login
-app.use('/users') //Find Users, Update User, Update Reimbursement
-app.use('/users/:id') //Find Users By ID
-app.use('/reimbursements/status/:statusId') //Find Reimbursement by Status
-app.use('/reimbursements/author/userId/:userId') //Find reimbursements by user
-app.use('/reimbursements') //submit reimbursement
+
+app.use('/login') //Registering the router with a base path of /Login
+
+//Find Users, Update User, Update Reimbursement
+app.use('/users') //Registering the router with a base path of /users
+
+ //Find Users By ID
+app.use('/users/:id') //Registering the router with a base path of /users/:id
+
+//Find Reimbursement by Status
+app.use('/reimbursements/status/:statusId') //Registering the router with a base path of /reimbursements/status/:statusId
+
+//Find reimbursements by user
+app.use('/reimbursements/author/userId/:userId') //Registering the router with a base path of /reimbursements/author/userId/:userId
+
+ //submit reimbursement
+app.use('/reimbursements') //Registering the router with a base path of /reimbursements
 
 
 const PORT = 1001
