@@ -1,0 +1,6 @@
+//Contains user endpoints for Find Users, Update User, Update Reimbursement
+import express from 'express'
+import { User } from '../models/user'
+import { authorization } from '../middleware/auth-middleware'
+
+export const userRouter = express.Router()
