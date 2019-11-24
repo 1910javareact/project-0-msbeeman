@@ -7,28 +7,38 @@ const app = express() //Creates an instance of express
 
 app.use(bodyparser.json()) //Turns JSON string into a JS Object
 
-app.use(loggingMiddleware) //Middleware for logging
-
 app.use(sessionMiddleware) //Adds a session object to every req object. Access using req.session
 
-//Available Endpoints
+////////////////////////////Available Endpoints////////////////////////////
 
-app.use('/login') //Registering the router with a base path of /Login
+//Registering the router with a base path of /Login
+app.post('/login', async (req, res) => {
+    const {username, password} = req.body;
+    if (!username || !password ) {
+        res.status(400).send('Please input a username and password.');
+    }
+    try {
+        const user = await getUserByUsernameAndPassword(username, password);
+        req.session.user = user;
+        res.json(user);
+    } catch (e) {
+        res.status(e.status).send(e.message);
+    } 
 
 //Find Users, Update User, Update Reimbursement
-app.use('/users') //Registering the router with a base path of /users
+app.use('/users', ) //Registering the router with a base path of /users
 
  //Find Users By ID
-app.use('/users/:id') //Registering the router with a base path of /users/:id
+app.use('/users/:id', ) //Registering the router with a base path of /users/:id
 
 //Find Reimbursement by Status
-app.use('/reimbursements/status/:statusId') //Registering the router with a base path of /reimbursements/status/:statusId
+app.use('/reimbursements/status/:statusId', ) //Registering the router with a base path of /reimbursements/status/:statusId
 
 //Find reimbursements by user
-app.use('/reimbursements/author/userId/:userId') //Registering the router with a base path of /reimbursements/author/userId/:userId
+app.use('/reimbursements/author/userId/:userId', ) //Registering the router with a base path of /reimbursements/author/userId/:userId
 
  //submit reimbursement
-app.use('/reimbursements') //Registering the router with a base path of /reimbursements
+app.use('/reimbursements', ) //Registering the router with a base path of /reimbursements
 
 
 const PORT = 1001
