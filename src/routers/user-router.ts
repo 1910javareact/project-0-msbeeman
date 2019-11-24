@@ -4,3 +4,8 @@ import { User } from '../models/user'
 import { authorization } from '../middleware/auth-middleware'
 
 export const userRouter = express.Router()
+
+
+
+ //Find Users By ID
+ userRouter('/:id', ) 

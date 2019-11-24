@@ -1,9 +1,12 @@
-//Contain functions for interacting with the database
+//File Purpose: Contain functions for interacting with the database
+
 import { User } from '../models/user'
-import { users } from '../database'
+import { PoolClient } from 'pg'; //Node library for query's in postgres
+import { connectionPool } from '.';
+//import gardendto to garden
 
 
-export async function daoGetUserByUsernameAndPassword(username: string, password: string): Promise<Garden> {
+export async function daoGetUserByUsernameAndPassword(username: string, password: string): Promise<User> {
     let client: PoolClient;
 
     try {
@@ -18,7 +21,7 @@ export async function daoGetUserByUsernameAndPassword(username: string, password
         if (result.rowCount === 0) {
             throw 'bad credentials';
         } else {
-            return gardenDTOtoGarden(result.rows);
+            return userDTOtoUser(result.rows);
         }
     } catch (e) {
         console.log(e);
@@ -38,7 +41,3 @@ export async function daoGetUserByUsernameAndPassword(username: string, password
     }
 }
 
-
-export function daoGetAllUsers():User[]{
-    return users
-}
