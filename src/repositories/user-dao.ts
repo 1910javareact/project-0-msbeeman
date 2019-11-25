@@ -1,57 +1,8 @@
-//File Purpose: Contain functions for interacting with the database
+//File Purpose: Contains functions for interacting with the database
 import { User } from '../models/user';
 import { PoolClient } from 'pg'; //Node library for query's in postgres
 import { connectionPool } from '.';
 import { userDTOtoUser, multiUserDTOConvertor } from '../util/UserDTO-to-user';
-
-
-export async function daoGetAllUsers(): Promise<User[]> {
-    let client: PoolClient;
-
-    try {
-        client = await connectionPool.connect();
-
-        const result = await client.query('SELECT * FROM garden_book.garden natural join garden_book.garden_roles natural join garden_book.roles');
-        return multiUserDTOConvertor(result.rows);
-    } catch (e) {
-        console.log(e);
-        throw {
-            status: 500,
-            message: 'Internal Server Error'
-        };
-    } finally {
-        client && client.release();
-    }
-}
-
-
-export async function daoGetUserById(id: number) {
-    let client: PoolClient;
-    try {
-        client = await connectionPool.connect();
-        const result = await client.query('SELECT * FROM garden_book.garden natural join garden_book.garden_roles natural join garden_book.roles where garden_id = $1', [id]);
-        if (result.rowCount > 0) {
-            return userDTOtoUser(result.rows);
-        } else {
-            throw 'No such User.';
-        }
-
-    } catch (e) {
-        if (e === 'No such User.') {
-            throw {
-                status: 404,
-                message: 'This user does not exist.'
-            }; //this is an error
-        } else {
-            throw  {
-                status: 500,
-                message: 'Internal Server Error'
-            };
-        }
-    }
-
-}
-
 
 
 
@@ -90,3 +41,56 @@ export async function daoGetUserByUsernameAndPassword(username: string, password
     }
 }
 
+
+export async function daoFindUsers(): Promise<User[]> {
+    let client: PoolClient;
+
+    try {
+        client = await connectionPool.connect();
+
+        const result = await client.query('SELECT * FROM garden_book.garden natural join garden_book.garden_roles natural join garden_book.roles');
+        return multiUserDTOConvertor(result.rows);
+    } catch (e) {
+        console.log(e);
+        throw {
+            status: 500,
+            message: 'Internal Server Error'
+        };
+    } finally {
+        client && client.release();
+    }
+}
+
+
+export async function daoFindUserById(id: number): Promise<User> {
+    let client: PoolClient;
+    try {
+        client = await connectionPool.connect();
+        const result = await client.query('SELECT * FROM garden_book.garden natural join garden_book.garden_roles natural join garden_book.roles where garden_id = $1', [id]);
+        if (result.rowCount > 0) {
+            return userDTOtoUser(result.rows);
+        } else {
+            throw 'No such user exists.';
+        }
+
+    } catch (e) {
+        if (e === 'No such user exists.') {
+            throw {
+                status: 404,
+                message: 'This user does not exist.'
+            }; //this is an error
+        } else {
+            throw  {
+                status: 500,
+                message: 'Internal Server Error'
+            };
+        }
+    }
+
+}
+
+
+export async function daoUpdateUser(): Promise<User> {
+    let client: PoolClient;
+
+}
