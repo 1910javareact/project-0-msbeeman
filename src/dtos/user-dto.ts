@@ -1,4 +1,4 @@
-//User DTO is going to be the database version of the user model
+//User DTO is going to be the database version of the user model + role model
 
 //this dto is going to be after the natural joins to get the roles
 export class UserDTO {
