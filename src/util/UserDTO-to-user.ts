@@ -2,21 +2,22 @@ import { UserDTO } from '../dtos/user-dto';
 import { User } from '../models/user';
 
 
-//this function will take in an array of gardenDTOs
-//First we will loop through the array and grab all role names
-//then we build a new garden object and pass in all values
-//including the role array we built
+//Function will take in an array of userDTOs, loop through it and grab all roles names, then build a new user object
+//and pass in all values (including the role array that was built)
 export function userDTOtoUser(uD: UserDTO[]): User {
     const roles = [];
-    for (const g of uD) {
-        roles.push(g.role_name);
+    for (const u of uD) {
+        roles.push({
+            roleId: u.role_id,
+            role: u.role_name});
     }
     return new User(
-        gD[0].name,
-        gD[0].prettiness,
-        gD[0].garden_id,
-        gD[0].username,
-        gD[0].password,
+        uD[0].user_id, 
+        uD[0].username, 
+        uD[0].password,
+        uD[0].firstName,
+        uD[0].lastName,
+        uD[0].email,
         roles);
 }
 

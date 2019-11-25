@@ -1,12 +1,13 @@
-//User DTO is going to be the database version of one of the user model
+//User DTO is going to be the database version of the user model
 
 //this dto is going to be after the natural joins to get the roles
 export class UserDTO {
-    garden_id: number;
-    username: string;
-    password: string;
-    prettiness: number;
-    name: string;
-    role_id: number;
-    role_name: string;
+    user_id: number
+    username: string
+    password: string
+    firstName: string
+    lastName: string
+    email: string
+    role_id: number
+    role_name: string
 }
