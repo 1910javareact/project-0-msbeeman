@@ -9,6 +9,5 @@ export class ReimbursementDTO {
     description: string;
     resolver: number;
     status: number;
-    type_id: number;
-    type: string;
+    type: number;
 }
