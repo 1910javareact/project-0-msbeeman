@@ -12,8 +12,8 @@ export function userDTOtoUser(uD: UserDTO[]): User {
             role: u.role_name});
     }
     return new User(
-        uD[0].user_id, 
-        uD[0].username, 
+        uD[0].user_id,
+        uD[0].username,
         uD[0].password,
         uD[0].firstName,
         uD[0].lastName,
@@ -21,10 +21,10 @@ export function userDTOtoUser(uD: UserDTO[]): User {
         roles);
 }
 
-//this function takes in many garden dtos, some with the same id
-//it adds all garden dtos with the same id to a temp array
-//then converts that array into a single garden object from 1-3 gardenDTO objects
-//this function can be used with any set of gardenDTOS to turn them into Gardens
+//This function takes in multiple user DTOs, some with the same id
+//Adds all DTOs with the same ID to a temp array
+//then converts that array into a single user object from 1-3 userDTO objects
+//this function can be used with any set of userDTOS to turn them into Users
 export function multiUserDTOConvertor(uD: UserDTO[]): User[] {
     let currentUser: UserDTO[] = [];
     const result: User[] = [];

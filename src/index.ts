@@ -1,16 +1,23 @@
-import express from 'express'
-import bodyparser from 'body-parser'
-import { loggingMiddleware } from './middleware/logging-middleware'
-import { sessionMiddleware } from './middleware/session-middleware'
-import { getUserByUsernameAndPassword } from './services/user-services'
+import express from 'express';
+import bodyparser from 'body-parser';
+import { loggingMiddleware } from './middleware/logging-middleware';
+import { sessionMiddleware } from './middleware/session-middleware';
+import { getUserByUsernameAndPassword } from './services/user-service';
+import { userRouter } from './routers/user-router';
 
-const app = express() //Creates an instance of express
+const app = express(); //Creates an instance of express
 
-app.use(bodyparser.json()) //Turns JSON string into a JS Object
+app.use(bodyparser.json()); //Turns JSON string into a JS Object
 
-app.use(sessionMiddleware) //Adds a session object to every req object. Access using req.session
+app.use(sessionMiddleware); //Adds a session object to every req object. Access using req.session
 
 ////////////////////////////Available Endpoints////////////////////////////
+
+//Find Users, Update User, Update Reimbursement
+app.use('/users', userRouter); //Registering the router with a base path of /users
+
+ //submit reimbursement
+app.use('/reimbursements', ); //Registering the router with a base path of /reimbursements
 
 //Registering the router with a base path of /Login
 app.post('/login', async (req, res) => {
@@ -24,17 +31,13 @@ app.post('/login', async (req, res) => {
         res.json(user);
     } catch (e) {
         res.status(e.status).send(e.message);
-    } 
-
-//Find Users, Update User, Update Reimbursement
-app.use('/users', ) //Registering the router with a base path of /users
-
- //submit reimbursement
-app.use('/reimbursements', ) //Registering the router with a base path of /reimbursements
+    }
+});
 
 
-//Listen to port 1001 unless
-const PORT = 1001
+
+//Listen to port 1001
+const PORT = 1001;
 app.listen(PORT, () => {
-    console.log(`The server has started on port: ${PORT}`)
-})})
+    console.log(`The server has started on port: ${PORT}`);
+});
