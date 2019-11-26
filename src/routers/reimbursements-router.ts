@@ -1,11 +1,11 @@
-import express from 'express'
-import { authorization } from '../middleware/auth-middleware'
+import express from 'express';
+import { authorization } from '../middleware/auth-middleware';
 
-export const reimbursementsRouter = express.Router()
+export const reimbursementsRouter = express.Router();
 
 
 //Find Reimbursement by Status
-reimbursementsRouter('/status/:statusId', )
+reimbursementsRouter('/status/:statusId', );
 
 //Find reimbursements by user
-reimbursementsRouter('/author/userId/:userId', )
+reimbursementsRouter('/author/userId/:userId', );

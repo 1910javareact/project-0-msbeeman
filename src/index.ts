@@ -1,9 +1,9 @@
 import express from 'express';
 import bodyparser from 'body-parser';
-import { loggingMiddleware } from './middleware/logging-middleware';
+//import { loggingMiddleware } from './middleware/logging-middleware';
 import { sessionMiddleware } from './middleware/session-middleware';
 import { getUserByUsernameAndPassword } from './services/user-service';
-import { userRouter } from './routers/user-router';
+//import { userRouter } from './routers/user-router';
 
 const app = express(); //Creates an instance of express
 
@@ -13,11 +13,11 @@ app.use(sessionMiddleware); //Adds a session object to every req object. Access 
 
 ////////////////////////////Available Endpoints////////////////////////////
 
-//Find Users, Update User, Update Reimbursement
-app.use('/users', userRouter); //Registering the router with a base path of /users
+
+//app.use('/users', userRouter); //Registering the router with a base path of /users
 
  //submit reimbursement
-app.use('/reimbursements', ); //Registering the router with a base path of /reimbursements
+//app.use('/reimbursements', ); //Registering the router with a base path of /reimbursements
 
 //Registering the router with a base path of /Login
 app.post('/login', async (req, res) => {
@@ -33,7 +33,6 @@ app.post('/login', async (req, res) => {
         res.status(e.status).send(e.message);
     }
 });
-
 
 
 //Listen to port 1001

@@ -4,31 +4,26 @@ import { PoolClient } from 'pg'; //Node library for query's in postgres
 import { connectionPool } from '.';
 import { userDTOtoUser, multiUserDTOConvertor } from '../util/UserDTO-to-user';
 
-
-
 export async function daoGetUserByUsernameAndPassword(username: string, password: string): Promise<User> {
     let client: PoolClient;
 
     try {
         client = await connectionPool.connect();
-        //we use $number to represent a paramter to our sql query
-        //then we provide those paramaters as values in an array
+        //we use $number to represent a paramter to our sql query, then we provide those paramaters as values in an array
         //that array is the second param of the query function
-        //this way, pg can sanitize the user inputs, so we can avoid sql injection
-        //we call this kind of query a paramaterized query // sometimes a prepared statement
-        const result = await client.query('SELECT * FROM garden_book.garden natural join garden_book.garden_roles natural join garden_book.roles WHERE username = $1 and password = $2',
+        const result = await client.query('SELECT * FROM ers_project.users natural join ers_project.user_roles natural join ers_project.roles WHERE username = $1 and password = $2',
             [username, password]);
         if (result.rowCount === 0) {
-            throw 'bad credentials';
+            throw 'Invalid Credentials';
         } else {
             return userDTOtoUser(result.rows);
         }
     } catch (e) {
         console.log(e);
-        if (e === 'bad credentials') {
+        if (e === 'Invalid Credentials') {
             throw {
-                status: 401,
-                message: 'Bad credentials'
+                status: 400,
+                message: 'Invalid Credentials'
             };
         } else {
             throw {
@@ -90,7 +85,7 @@ export async function daoFindUserById(id: number): Promise<User> {
 }
 
 //*************************Come back later and finish ********************
-export async function daoUpdateUser(): Promise<User> {
-    let client: PoolClient;
+// export async function daoUpdateUser(): Promise<User> {
+//     let client: PoolClient;
 
-}
+// }
