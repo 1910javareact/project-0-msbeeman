@@ -37,13 +37,13 @@ export async function daoGetUserByUsernameAndPassword(username: string, password
 }
 
 
-export async function daoFindUsers(): Promise<User[]> {
+export async function daoGetAllUsers(): Promise<User[]> {
     let client: PoolClient;
 
     try {
         client = await connectionPool.connect();
 
-        const result = await client.query('SELECT * FROM garden_book.garden natural join garden_book.garden_roles natural join garden_book.roles');
+        const result = await client.query('SELECT * FROM ers_project.users natural join ers_project.user_roles natural join ers_project.roles');
         return multiUserDTOConvertor(result.rows);
     } catch (e) {
         console.log(e);
@@ -83,6 +83,44 @@ export async function daoFindUserById(id: number): Promise<User> {
     }
 
 }
+
+export async function daoSaveOneUser(u: User): Promise<User> {
+     let client: PoolClient;
+     client = await connectionPool.connect();
+     try {
+         await client.query('BEGIN'); //start a transaction
+         //the returning keyword can be used with insert, to return the values that actually got inserted
+         const result = await client.query('INSERT INTO garden_book.garden (username, "password", "name", prettiness) values ($1,$2,$3,$4) RETURNING garden_id',
+         [u.username, u.password, u.name, u.prettiness]);
+         for (const role of u.roles) {
+             let roleId = 0;
+             switch (role) {
+                 case 'Admin':
+                     roleId = 1;
+                     break;
+                 case 'Moderator':
+                     roleId = 2;
+                     break;
+                 default:
+                     roleId = 3;
+                     break;
+             }
+             await client.query('INSERT INTO garden_book.garden_roles VALUES($1,$2)',
+             [result.rows[0].garden_id, roleId ]);
+         }
+         u.id = result.rows[0].garden_id;
+         await client.query('COMMIT');
+         return u;
+     } catch (e) {
+         await client.query('ROLLBACK');
+         throw {
+             status: 500,
+             message: 'Internal Server Error'
+         };
+     } finally {
+         client && client.release();
+     }
+ }
 
 //*************************Come back later and finish ********************
 // export async function daoUpdateUser(): Promise<User> {

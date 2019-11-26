@@ -3,7 +3,7 @@ import bodyparser from 'body-parser';
 //import { loggingMiddleware } from './middleware/logging-middleware';
 import { sessionMiddleware } from './middleware/session-middleware';
 import { getUserByUsernameAndPassword } from './services/user-service';
-//import { userRouter } from './routers/user-router';
+import { userRouter } from './routers/user-router';
 
 const app = express(); //Creates an instance of express
 
@@ -11,10 +11,11 @@ app.use(bodyparser.json()); //Turns JSON string into a JS Object
 
 app.use(sessionMiddleware); //Adds a session object to every req object. Access using req.session
 
+
 ////////////////////////////Available Endpoints////////////////////////////
 
 
-//app.use('/users', userRouter); //Registering the router with a base path of /users
+app.use('/users', userRouter); //Registering the router with a base path of /users
 
  //submit reimbursement
 //app.use('/reimbursements', ); //Registering the router with a base path of /reimbursements
