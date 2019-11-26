@@ -2,7 +2,7 @@
 import express from 'express';
 //import { User } from '../models/user';
 import { getAllUsers, getUserById } from '../services/user-service';
-import { authorization } from '../middleware/auth-middleware';
+//import { authorization } from '../middleware/auth-middleware';
 
 
 export const userRouter = express.Router();
@@ -17,7 +17,8 @@ async function controllerGetUsers(req, res) {
     }
 }
 
-userRouter.get('', [authorization(['finance-manager']), controllerGetUsers]);
+userRouter.get('', controllerGetUsers);
+//userRouter.get('', [authorization(['finance-manager']), controllerGetUsers]);
 
  //Find Users By ID
  userRouter.get('/:id', async (req, res) => {
