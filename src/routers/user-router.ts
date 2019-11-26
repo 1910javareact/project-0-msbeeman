@@ -1,6 +1,6 @@
 //Contains/holds user endpoints for Find Users, Find Users by ID, Update User
 import express from 'express';
-import { User } from '../models/user';
+//import { User } from '../models/user';
 import { getAllUsers, getUserById } from '../services/user-service';
 import { authorization } from '../middleware/auth-middleware';
 
@@ -26,8 +26,8 @@ userRouter.get('', [authorization(['finance-manager']), controllerGetUsers]);
         res.sendStatus(400);
     } else {
         try {
-            const garden = await getUserById(id);
-            res.json(garden);
+            const user = await getUserById(id);
+            res.json(user);
         } catch (e) {
             res.status(e.status).send(e.message);
         }
@@ -36,25 +36,25 @@ userRouter.get('', [authorization(['finance-manager']), controllerGetUsers]);
 });
 
 
-userRouter.post('', [authorization(['finance-manager', 'QC', 'trainee']),
-async (req, res) => {
-    const { body } = req; //destructuring
-    const newU = new User('', 0, 0, '', '', [], 1);
-    for (const key in newU) {
-        if (body[key] === undefined) {
-            res.status(400).send('Please include all user fields');
-            break;
-        } else {
-            newU[key] = body[key];
-        }
-    }
-    try {
-        const user = await saveOneUser(newU);
-        res.status(201).json(user);
-    } catch (e) {
-        res.status(e.status).send(e.message);
-    }
-}]);
+// userRouter.post('', [authorization(['finance-manager', 'QC', 'trainee']),
+// async (req, res) => {
+//     const { body } = req; //destructuring
+//     const newU = new User('', 0, 0, '', '', [], 1);
+//     for (const key in newU) {
+//         if (body[key] === undefined) {
+//             res.status(400).send('Please include all user fields');
+//             break;
+//         } else {
+//             newU[key] = body[key];
+//         }
+//     }
+//     try {
+//         const user = await saveOneUser(newU);
+//         res.status(201).json(user);
+//     } catch (e) {
+//         res.status(e.status).send(e.message);
+//     }
+// }]);
 
 
 

@@ -17,7 +17,7 @@ app.use(sessionMiddleware); //Adds a session object to every req object. Access 
 
 app.use('/users', userRouter); //Registering the router with a base path of /users
 
- //submit reimbursement
+
 //app.use('/reimbursements', ); //Registering the router with a base path of /reimbursements
 
 //Registering the router with a base path of /Login

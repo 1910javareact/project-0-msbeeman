@@ -23,3 +23,9 @@ export function getUserById(id: number): Promise<User> {
 
     return daoFindUserById(id);
 }
+
+
+
+// export function saveOneUser(u: User): Promise<User> {
+//     return daoSaveOneUser(u);
+// }

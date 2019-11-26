@@ -81,3 +81,4 @@ create table reimbursement (
 
 SELECT * FROM users natural join user_roles natural join roles WHERE username = 'msbeeman' AND "password" = 'password';
 SELECT * FROM users natural join user_roles natural join roles
+SELECT * FROM users natural join user_roles natural join roles where user_id = 1
